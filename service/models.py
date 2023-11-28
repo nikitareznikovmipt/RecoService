@@ -1,6 +1,5 @@
 import typing as tp
 
-import pandas as pd
 from pydantic import BaseModel
 
 from .config import TOP_POPULAR_RECS
