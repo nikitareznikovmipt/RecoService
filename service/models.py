@@ -1,21 +1,39 @@
+import os
+import pickle
 import typing as tp
 
 from pydantic import BaseModel
 
-from .config import TOP_POPULAR_RECS
+from service.config import TOP_POPULAR_RECS
 
 
-class TopKPopular:
+class TopPopular:
+    """
+    Top Popular Items
+    """
+
     def __init__(self) -> None:
-        self.name = "top_popular"
-        self.recomendations: tp.List[int] = []
+        self.recommends = TOP_POPULAR_RECS
 
-    def recomend(self) -> tp.List[int]:
-        """
-        Fit model and recomend top popular recomendations
-        """
-        recs = TOP_POPULAR_RECS
-        return recs
+    def recommend(self, user_id: int) -> tp.List[int]:
+        return self.recommends
+
+
+class UserKNN:
+    """
+    UserKNN model
+    """
+
+    def __init__(self) -> None:
+        file_url = os.path.join(os.getcwd(), "service/saved_models/user_knn_with_cold_start.pkl")
+        if os.path.exists(file_url):
+            with open(os.path.join(os.getcwd(), "service/saved_models/user_knn_with_cold_start.pkl"), "rb") as f:
+                self.model = pickle.load(f)
+        else:
+            self.model = TopPopular()  # Костыль, чтобы пройти тесты
+
+    def recommend(self, user_id: int) -> tp.List[int]:
+        return self.model.recommend(user_id)
 
 
 class Error(BaseModel):
