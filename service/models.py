@@ -1,3 +1,4 @@
+import json
 import os
 import pickle
 import typing as tp
@@ -34,6 +35,19 @@ class UserKNN:
 
     def recommend(self, user_id: int) -> tp.List[int]:
         return self.model.recommend(user_id)
+
+
+class LightFM:
+    def __init__(self) -> None:
+        file_path = os.path.join(os.getcwd(), "service/saved_models/lightfm_recommendations.json")
+        with open(file_path, "r", encoding='utf-8') as f:
+            self.recommendations = json.load(f)["item_id"]
+        self.popular = TopPopular().recommends
+
+    def recommend(self, user_id: int) -> tp.List[int]:
+        if str(user_id) in self.recommendations:
+            return self.recommendations[str(user_id)]
+        return self.popular
 
 
 class Error(BaseModel):

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
-from service.models import TopPopular, UserKNN
+from service.models import LightFM, TopPopular, UserKNN
 
 
 class RecoResponse(BaseModel):
@@ -18,6 +18,7 @@ router = APIRouter()
 # Инициализация моделей
 user_knn = UserKNN()
 top_popular_model = TopPopular()
+lightfm = LightFM()
 
 
 @router.get(
@@ -44,6 +45,8 @@ async def get_reco(
         recs = top_popular_model.recommend(user_id)
     elif model_name == "user_knn":
         recs = user_knn.recommend(user_id)
+    elif model_name == "lightfm":
+        recs = lightfm.recommend(user_id)
     else:
         raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
