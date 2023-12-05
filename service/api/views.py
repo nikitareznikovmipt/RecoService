@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
-from service.models import TopKPopular
+from service.models import TopPopular, UserKNN
 
 
 class RecoResponse(BaseModel):
@@ -15,7 +15,9 @@ class RecoResponse(BaseModel):
 
 router = APIRouter()
 
-top_popular_model = TopKPopular()
+# Инициализация моделей
+user_knn = UserKNN()
+top_popular_model = TopPopular()
 
 
 @router.get(
@@ -39,7 +41,9 @@ async def get_reco(
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
     if model_name == "top_popular":
-        recs = top_popular_model.recomend()
+        recs = top_popular_model.recommend()
+    elif model_name == "user_knn":
+        recs = user_knn.recommend(user_id)
     else:
         raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
