@@ -41,10 +41,10 @@ class LightFM:
     def __init__(self) -> None:
         file_path = os.path.join(os.getcwd(), "service/saved_models/lightfm_recommendations.json")
         if os.path.exists(file_path):
-            with open(file_path, "r", encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 self.recommendations = json.load(f)["item_id"]
         else:
-            self.recommendations = {'0': [1, 2, 3]} # Загрушка для теста
+            self.recommendations = {"0": [1, 2, 3]}  # Загрушка для теста
         self.popular = TopPopular().recommends
 
     def recommend(self, user_id: int) -> tp.List[int]:
