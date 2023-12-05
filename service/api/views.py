@@ -41,7 +41,7 @@ async def get_reco(
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
     if model_name == "top_popular":
-        recs = top_popular_model.recommend()
+        recs = top_popular_model.recommend(user_id)
     elif model_name == "user_knn":
         recs = user_knn.recommend(user_id)
     else:
