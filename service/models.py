@@ -2,7 +2,6 @@ import json
 import os
 import pickle
 import typing as tp
-import numpy as np
 
 from pydantic import BaseModel
 

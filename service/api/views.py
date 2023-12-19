@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
-from service.models import LightFM, TopPopular, UserKNN, DSSM, AutoEncoder, MultiVae
+from service.models import DSSM, AutoEncoder, LightFM, MultiVae, TopPopular, UserKNN
 
 
 class RecoResponse(BaseModel):
