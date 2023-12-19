@@ -44,7 +44,7 @@ class LightFM:
             with open(file_path, "r", encoding="utf-8") as f:
                 self.recommendations = json.load(f)["item_id"]
         else:
-            self.recommendations = {"0": [1, 2, 3]}  # Загрушка для теста
+            self.recommendations = {"0": [1, 2, 3]}  # Заглушка для теста
         self.popular = TopPopular().recommends
 
     def recommend(self, user_id: int) -> tp.List[int]:
