@@ -44,7 +44,55 @@ class LightFM:
             with open(file_path, "r", encoding="utf-8") as f:
                 self.recommendations = json.load(f)["item_id"]
         else:
-            self.recommendations = {"0": [1, 2, 3]}  # Загрушка для теста
+            self.recommendations = {"0": [1, 2, 3]}  # Заглушка для теста
+        self.popular = TopPopular().recommends
+
+    def recommend(self, user_id: int) -> tp.List[int]:
+        if str(user_id) in self.recommendations:
+            return self.recommendations[str(user_id)]
+        return self.popular
+
+
+class DSSM:
+    def __init__(self) -> None:
+        file_path = os.path.join(os.getcwd(), "service/saved_models/dssm_recommendations.json")
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                self.recommendations = json.load(f)["item_id"]
+        else:
+            self.recommendations = {}
+        self.popular = TopPopular().recommends
+
+    def recommend(self, user_id: int) -> tp.List[int]:
+        if str(user_id) in self.recommendations:
+            return self.recommendations[str(user_id)]
+        return self.popular
+
+
+class AutoEncoder:
+    def __init__(self) -> None:
+        file_path = os.path.join(os.getcwd(), "service/saved_models/ae_recommendations.json")
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                self.recommendations = json.load(f)["item_id"]
+        else:
+            self.recommendations = {}
+        self.popular = TopPopular().recommends
+
+    def recommend(self, user_id: int) -> tp.List[int]:
+        if str(user_id) in self.recommendations:
+            return self.recommendations[str(user_id)]
+        return self.popular
+
+
+class MultiVae:
+    def __init__(self) -> None:
+        file_path = os.path.join(os.getcwd(), "service/saved_models/multivae_recommendations.json")
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                self.recommendations = json.load(f)["item_id"]
+        else:
+            self.recommendations = {}
         self.popular = TopPopular().recommends
 
     def recommend(self, user_id: int) -> tp.List[int]:
