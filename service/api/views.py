@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
-from service.models import DSSM, AutoEncoder, LightFM, MultiVae, TopPopular, UserKNN
+from service.models import DSSM, AutoEncoder, LightFM, MultiVae, TopPopular, TwoStageModel, UserKNN
 
 
 class RecoResponse(BaseModel):
@@ -22,6 +22,7 @@ lightfm = LightFM()
 dssm_model = DSSM()
 autoencoder = AutoEncoder()
 mvae = MultiVae()
+two_stage_model = TwoStageModel()
 
 
 @router.get(
@@ -56,6 +57,8 @@ async def get_reco(
         recs = autoencoder.recommend(user_id)
     elif model_name == "multi_vae":
         recs = mvae.recommend(user_id)
+    elif model_name == "two_stage":
+        recs = two_stage_model.recommend(user_id)
     else:
         raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
